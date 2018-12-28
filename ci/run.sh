@@ -30,14 +30,34 @@ echo "FEATURES=${FEATURES}"
 echo "OBJDUMP=${OBJDUMP}"
 echo "STDSIMD_DISABLE_ASSERT_INSTR=${STDSIMD_DISABLE_ASSERT_INSTR}"
 echo "STDSIMD_TEST_EVERYTHING=${STDSIMD_TEST_EVERYTHING}"
+echo "CROSS=${CROSS}"
+
+cargo_setup() {
+    if [ "$CROSS" = "1" ]
+    then
+        export RUST_TARGET_PATH="/checkout/ci/cross"
+        echo "RUST_TARGET_PATH=${RUST_TARGET_PATH}"
+        echo "CARGO_HOME=${CARGO_HOME}"
+        echo "XARGO_HOME=${XARGO_HOME}"
+        ls -al /
+        ls -al /cargo-h/bin
+        ls -al /xargo-h
+    fi
+}
 
 cargo_test() {
+    if [ "$CROSS" = "1" ]
+    then
+        cmd="/cargo-h/bin/xargo"
+    else
+        cmd="cargo"
+    fi
     subcmd="test"
     if [ "$NORUN" = "1" ]
     then
         export subcmd="build"
     fi
-    cmd="cargo ${subcmd} --target=$TARGET $1"
+    cmd="$cmd ${subcmd} --target=$TARGET $1"
     if [ "$NOSTD" = "1" ]
     then
         cmd="$cmd -p coresimd"
@@ -52,9 +72,14 @@ cargo_test() {
         cmd="$cmd --quiet"
       fi
     fi
+    if [ "$CROSS" = "1" ]
+    then
+        cmd="$cmd --emit=asm"
+    fi
     $cmd
 }
 
+cargo_setup
 cargo_test
 cargo_test "--release"
 
