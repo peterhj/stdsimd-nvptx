@@ -41,10 +41,11 @@
 // a compile-time error: 'unknown feature `integer_atomics`'. This ought to be
 // investigated further, but for now just disable "integer_atomics" so we can
 // run _some_ test for the nvptx/nvptx64 targets.
-#![cfg_attr(
+/*#![cfg_attr(
     not(any(target_arch = "nvptx", target_arch = "nvptx64")),
     feature(integer_atomics)
-)]
+)]*/
+#![feature(integer_atomics)]
 #![cfg_attr(test, feature(test, abi_vectorcall, untagged_unions))]
 #![cfg_attr(
     feature = "cargo-clippy",
