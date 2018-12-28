@@ -79,9 +79,17 @@ cargo_test() {
     $cmd
 }
 
+cargo_output() {
+    if [ "$CROSS" = "1" ]
+    then
+        find /checkout/target -name "*.s"
+    fi
+}
+
 cargo_setup
 cargo_test
 cargo_test "--release"
+cargo_output
 
 # Test targets compiled with extra features.
 case ${TARGET} in
