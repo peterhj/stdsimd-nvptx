@@ -9,7 +9,9 @@ run() {
     echo "Building docker container for TARGET=${1}"
     docker build -t stdsimd -f "ci/docker/${1}/Dockerfile" ci/
     mkdir -p target
-    target=$(echo "${1}" | sed 's/-emulated//')
+    target=$(echo "${1}" | sed 's/-emulated//' | sed 's/-crossonly//')
+    cross="0"
+    [ "${1}" == *"crossonly"* ] && cross="1"
     echo "Running docker"
     # shellcheck disable=SC2016
     docker run \
@@ -27,6 +29,7 @@ run() {
       --env NORUN \
       --env RUSTFLAGS \
       --env STDSIMD_TEST_NORUN \
+      --env CROSS="${cross}" \
       --volume "$(pwd)":/checkout:ro \
       --volume "$(pwd)"/target:/checkout/target \
       --workdir /checkout \

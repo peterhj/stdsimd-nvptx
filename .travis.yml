@@ -68,6 +68,8 @@ matrix:
     - name: "thumbv7em-none-eabihf - build libcore only"
       env: TARGET=thumbv7em-none-eabihf NORUN=1 NOSTD=1
       script: ci/run.sh
+    - name: "nvptx64-nvidia-cuda-crossonly - no assert_instr, no simd_test"
+      env: TARGET=nvptx64-nvidia-cuda-crossonly STDSIMD_DISABLE_ASSERT_INSTR=1 STDSIMD_TEST_NORUN=1
     - name: "Documentation"
       install: true
       script: ci/dox.sh
