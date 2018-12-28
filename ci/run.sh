@@ -37,11 +37,6 @@ cargo_setup() {
     then
         export RUST_TARGET_PATH="/checkout/ci/cross"
         echo "RUST_TARGET_PATH=${RUST_TARGET_PATH}"
-        echo "CARGO_HOME=${CARGO_HOME}"
-        echo "XARGO_HOME=${XARGO_HOME}"
-        ls -al /
-        ls -al /cargo-h/bin
-        ls -al /xargo-h
     fi
 }
 
