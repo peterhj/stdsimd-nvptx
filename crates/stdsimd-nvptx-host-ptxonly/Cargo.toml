@@ -1,0 +1,16 @@
+[package]
+name = "stdsimd-nvptx-host-ptxonly"
+version = "0.0.0"
+edition = "2018"
+authors = [
+    "Peter Jin <peterhaijin@gmail.com>",
+]
+
+[workspace]
+members = []
+
+[build-dependencies]
+nvptxglue = { git = "https://github.com/peterhj/nvptxglue", rev = "9748dd8b4f11bb8481f1d63b39b3c94808d4efdf" }
+
+[features]
+default = []
