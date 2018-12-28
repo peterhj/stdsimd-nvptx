@@ -55,7 +55,12 @@ cargo_test() {
     subcmd="test"
     if [ "$NORUN" = "1" ]
     then
-        export subcmd="build"
+        if [ "$CROSS" = "1" ]
+        then
+            export subcmd="rustc"
+        else
+            export subcmd="build"
+        fi
     fi
     cmd="$cmd ${subcmd} --target=$TARGET $1"
     if [ "$NOSTD" = "1" ]
