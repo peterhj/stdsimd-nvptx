@@ -7,27 +7,6 @@ matrix:
   include:
     - name: "nvptx64-nvidia-cuda - cross compiled, build libcore only"
       env: TARGET=nvptx64-nvidia-cuda NORUN=1 NOSTD=1
-    - name: "Documentation"
-      install: true
-      script: ci/dox.sh
-    - name: "Automatic verification: x86 and x86_64"
-      script: cargo test --manifest-path crates/stdsimd-verify/Cargo.toml
-      install: true
-    - name: "rustfmt"
-      install: rustup component add rustfmt-preview
-      script: cargo fmt --all -- --check
-      rust: stable
-    - name: "clippy"
-      install: true
-      script: |
-        if rustup component add clippy-preview ; then
-            cargo clippy --all -- -D clippy::pedantic
-        fi
-    - name: "Shellcheck"
-      install: true
-      script:
-        - shellcheck --version
-        - shellcheck ci/*.sh
 
   allow_failures:
     # FIXME: https://github.com/rust-lang-nursery/stdsimd/issues/669
